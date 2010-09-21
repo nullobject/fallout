@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+$:.unshift File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
+
+require 'rubygems'
+require 'bundler/setup'
+
+require 'fallout'
+
+marquee = Fallout::Marquee.new
+
+marquee.on_finished {|marquee| marquee.start_message("HELLO WORLD!") }
+
+marquee.start
+sleep 10
+marquee.stop
