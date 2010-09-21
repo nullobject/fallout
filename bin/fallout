@@ -7,10 +7,18 @@ require 'bundler/setup'
 
 require 'fallout'
 
-marquee = Fallout::Marquee.new
+options = {
+  :dev   => '/dev/tty.usbserial-A7004HZe',
+  :mode  => :spi,
+  :power => true
+}
 
-marquee.on_finished {|marquee| marquee.start_message("HELLO WORLD!") }
+Bucaneer::BusPirate.connect(options) do |spi|
+  marquee = Fallout::Marquee.new(spi)
 
-marquee.start
-sleep 10
-marquee.stop
+  marquee.when_finished {|marquee| marquee.start_message(Time.now.strftime("%H:%M:%S")) }
+
+  marquee.start
+  sleep 20
+  marquee.stop
+end
