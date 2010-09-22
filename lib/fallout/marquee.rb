@@ -17,6 +17,7 @@ module Fallout
     WHITE = [1.0, 1.0, 1.0].freeze
 
     attr_accessor :speed, :dir, :color
+    attr_reader :current_message, :x_pos, :text_extents
 
     def initialize(spi, options = {})
       @spi = spi
@@ -143,7 +144,7 @@ module Fallout
 
     def set_initial_x_pos
       if @dir > 0
-        @x_pos = -(@text_extents.width.to_i)
+        @x_pos = -@text_extents.width.to_i
       else
         @x_pos = WIDTH
       end
@@ -154,7 +155,7 @@ module Fallout
       if @dir > 0
         @x_pos > WIDTH
       else
-        @x_pos < -(@text_extents.width.to_i)
+        @x_pos < -@text_extents.width.to_i
       end
     end
   end

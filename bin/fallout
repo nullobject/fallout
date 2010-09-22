@@ -17,6 +17,7 @@ options = {
 Bucaneer::BusPirate.connect(options) do |spi|
   marquee = Fallout::Marquee.new(spi)
 
+  # If a message finishes then kick-off a new one.
   marquee.when_finished do |marquee|
     marquee.color = [rand, rand, rand]
     marquee.start_message(Time.now.strftime("%H:%M:%S"))
