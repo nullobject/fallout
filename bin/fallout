@@ -5,6 +5,7 @@ $:.unshift File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
 require 'rubygems'
 require 'bundler/setup'
 
+require 'bucaneer'
 require 'fallout'
 
 options = {
@@ -16,9 +17,12 @@ options = {
 Bucaneer::BusPirate.connect(options) do |spi|
   marquee = Fallout::Marquee.new(spi)
 
-  marquee.when_finished {|marquee| marquee.start_message(Time.now.strftime("%H:%M:%S")) }
+  marquee.when_finished do |marquee|
+    marquee.color = [rand, rand, rand]
+    marquee.start_message(Time.now.strftime("%H:%M:%S"))
+  end
 
   marquee.start
-  sleep 20
+  sleep 800
   marquee.stop
 end

@@ -1,16 +1,22 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    bucaneer (0.0.1)
+    bucaneer (0.1.0)
       ruby-serialport
     cairo (1.10.0)
       pkg-config
     pkg-config (1.0.3)
+    rake (0.8.7)
+    rr (1.0.0)
+    rspec (1.3.0)
     ruby-serialport (0.7.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  bucaneer
-  cairo
+  bucaneer (~> 0.1.0)
+  cairo (~> 1.10.0)
+  rake (~> 0.8.7)
+  rr (~> 1.0.0)
+  rspec (~> 1.3.0)

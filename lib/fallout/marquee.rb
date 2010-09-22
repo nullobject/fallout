@@ -1,4 +1,3 @@
-require 'bucaneer'
 require 'cairo'
 
 module Fallout
@@ -123,12 +122,14 @@ module Fallout
       [].tap do |bytes|
         e = @surface.data.enum_for(:each_byte)
 
-        # Re-pack bytes from BGRA -> RGB.
         e.each_slice(4) do |b, g, r, a|
-          r = r >> 5
-          g = g >> 5
-          b = b >> 6
+          r = r >> 5 # reduce R to 3-bits
+          g = g >> 5 # reduce G to 3-bits
+          b = b >> 6 # reduce B to 2-bits
+
+          # Pack the bits RRRGGGBB.
           byte = (r << 5) | (g << 2) | b
+
           bytes << byte
         end
       end
