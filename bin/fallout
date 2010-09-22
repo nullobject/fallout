@@ -5,25 +5,14 @@ $:.unshift File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
 require 'rubygems'
 require 'bundler/setup'
 
-require 'bucaneer'
 require 'fallout'
 
-options = {
-  :dev   => '/dev/tty.usbserial-A7004HZe',
-  :mode  => :spi,
-  :power => true
-}
+manager = Fallout::Manager.new
 
-Bucaneer::BusPirate.connect(options) do |spi|
-  marquee = Fallout::Marquee.new(spi)
+manager.add_source(Fallout::Source::Random.new)
+manager.add_sink(Fallout::Sink::LEDMatrix.new)
 
-  # If a message finishes then kick-off a new one.
-  marquee.when_finished do |marquee|
-    marquee.color = [rand, rand, rand]
-    marquee.start_message(Time.now.strftime("%H:%M:%S"))
-  end
+trap("TERM") { manager.stop }
+trap("INT")  { manager.stop }
 
-  marquee.start
-  sleep 800
-  marquee.stop
-end
+manager.run

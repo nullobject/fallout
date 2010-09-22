@@ -31,15 +31,18 @@ module Fallout
 
     def start
       @running = true
+
       @worker = Thread.new do
+        # The old tick and sleep.
         while @running do
           tick
+          sleep @delay
         end
       end
-      when_finished
     end
 
     def stop
+      puts "Marquee#stop"
       if @running
         @running = false
         @worker.join
@@ -52,25 +55,21 @@ module Fallout
         clear
         draw_text(@x_pos, HEIGHT)
         @spi.tx(surface_data)
-
-        @x_pos += @dir
-
-        sleep @delay
-
         finish_message if finished?
+        @x_pos += @dir
       end
     end
 
     # Start displaying the given message.
     def start_message(text)
-      puts "DEBUG: start_message '#{text}'"
+      puts "DEBUG: Marquee#start_message '#{text}'"
       set_current_message(text)
       when_started
     end
 
     # Stop displaying the current message.
     def finish_message
-      puts "DEBUG: finish_message"
+      puts "DEBUG: Marquee#finish_message"
       @current_message = nil
       when_finished
     end
@@ -88,6 +87,19 @@ module Fallout
         @when_finished = block
       else
         @when_finished.call(self) if @when_finished
+      end
+    end
+
+    def playing?
+      !@current_message.nil?
+    end
+
+    # Returns true if we've moved past the last character in the message.
+    def finished?
+      if @dir > 0
+        @x_pos > WIDTH
+      else
+        @x_pos < -@text_extents.width.to_i
       end
     end
 
@@ -147,15 +159,6 @@ module Fallout
         @x_pos = -@text_extents.width.to_i
       else
         @x_pos = WIDTH
-      end
-    end
-
-    # Returns true if we've moved past the last character in the message.
-    def finished?
-      if @dir > 0
-        @x_pos > WIDTH
-      else
-        @x_pos < -@text_extents.width.to_i
       end
     end
   end

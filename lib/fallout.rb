@@ -1,6 +1,6 @@
 module Fallout
 end
 
-require 'fallout/marquee'
+require 'fallout/manager'
 require 'fallout/source'
 require 'fallout/sink'

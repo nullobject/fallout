@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'bucaneer', '~> 0.1.0'
+gem 'bucaneer', '~> 0.1.1'
 gem 'cairo',    '~> 1.10.0'
 
 group :development do
