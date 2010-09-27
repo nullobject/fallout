@@ -1,7 +1,5 @@
 module Fallout::Sink
   class Base
-    attr_accessor :manager
-
     def start
     end
 

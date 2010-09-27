@@ -1,7 +1,5 @@
 module Fallout::Source
   class Base
-    attr_accessor :manager
-
     def start
     end
 

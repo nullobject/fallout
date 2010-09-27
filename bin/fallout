@@ -7,10 +7,10 @@ require 'bundler/setup'
 
 require 'fallout'
 
-manager = Fallout::Manager.new
+manager = Fallout::Manager.instance
 
-manager.add_source(Fallout::Source::Random.new)
-manager.add_sink(Fallout::Sink::LEDMatrix.new)
+manager.sources << Fallout::Source::Random.new
+manager.sinks   << Fallout::Sink::LEDMatrix.new
 
 trap("TERM") { manager.stop }
 trap("INT")  { manager.stop }

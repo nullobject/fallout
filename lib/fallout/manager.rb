@@ -1,9 +1,14 @@
+require 'singleton'
+
 module Fallout
   class Manager
+    include Singleton
+
+    attr_reader :sources, :sinks
+
     def initialize
       @sources = []
       @sinks   = []
-      super() # NOTE: This *must* be called, otherwise states won't get initialized.
     end
 
     def run
@@ -37,16 +42,6 @@ module Fallout
 
       @worker.wakeup
       @worker.join
-    end
-
-    def add_source(source)
-      source.manager = self
-      @sources << source
-    end
-
-    def add_sink(sink)
-      sink.manager = self
-      @sinks << sink
     end
 
     def notify(message)
