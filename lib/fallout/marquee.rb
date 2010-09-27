@@ -30,6 +30,8 @@ module Fallout
     end
 
     def start
+      puts "DEBUG: Marquee#start"
+
       @running = true
 
       @worker = Thread.new do
@@ -42,12 +44,9 @@ module Fallout
     end
 
     def stop
-      puts "Marquee#stop"
-      if @running
-        @running = false
-        @worker.join
-        @worker = nil
-      end
+      puts "DEBUG: Marquee#stop"
+      @running = false
+      @worker.join
     end
 
     def tick

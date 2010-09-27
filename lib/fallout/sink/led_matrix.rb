@@ -27,10 +27,12 @@ module Fallout::Sink
     end
 
     def start
+      puts "DEBUG: LEDMatrix#start"
       @marquee.start
     end
 
     def stop
+      puts "DEBUG: LEDMatrix#stop"
       @marquee.stop
       @bus_pirate.close
     end

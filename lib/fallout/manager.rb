@@ -12,6 +12,8 @@ module Fallout
     end
 
     def start
+      puts "DEBUG: Manager#start"
+
       @sources.map(&:start)
       @sinks.map(&:start)
 
@@ -26,10 +28,15 @@ module Fallout
     end
 
     def stop
-      @sinks.map(&:stop)
+      puts "DEBUG: Manager#stop"
+
       @sources.map(&:stop)
+      @sinks.map(&:stop)
+
       @running = false
+
       @worker.wakeup
+      @worker.join
     end
 
     def add_source(source)
@@ -43,8 +50,7 @@ module Fallout
     end
 
     def notify(message)
-      return unless @running
-      puts "DEBUG Manager#notify '#{message}'"
+      puts "DEBUG: Manager#notify '#{message}'"
       @sinks.each {|sink| sink.notify(message) }
     end
   end
