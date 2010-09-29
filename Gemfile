@@ -3,6 +3,7 @@ source :rubygems
 gem 'bucaneer',   '~> 0.1.1'
 gem 'cairo',      '~> 1.10.0'
 gem 'simple-rss', '~> 1.2.3'
+gem 'redis',      '~> 2.0.10'
 
 group :development do
   gem 'rake',  '~> 0.8.7'

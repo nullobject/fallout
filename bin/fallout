@@ -10,7 +10,7 @@ require 'fallout'
 manager = Fallout::Manager.instance
 
 manager.sources << Fallout::Source::Hudson.new
-# manager.sinks   << Fallout::Sink::LEDMatrix.new
+manager.sinks   << Fallout::Sink::Vox.new
 
 trap("TERM") { manager.stop }
 trap("INT")  { manager.stop }

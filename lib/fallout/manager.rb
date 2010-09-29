@@ -2,6 +2,8 @@ require 'singleton'
 
 module Fallout
   class Manager
+    TIMEOUT = 10
+
     include Singleton
 
     attr_reader :sources, :sinks
@@ -27,7 +29,7 @@ module Fallout
       @worker = Thread.new do
         while @running
           @sources.map(&:update)
-          sleep 60
+          sleep TIMEOUT
         end
       end
     end
