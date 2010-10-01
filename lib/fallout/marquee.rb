@@ -103,7 +103,6 @@ module Fallout
     end
 
   private
-
     def init_surface
       @surface = Cairo::ImageSurface.new(WIDTH, HEIGHT)
       @context = Cairo::Context.new(@surface)

@@ -19,7 +19,7 @@ module Fallout::Sink
 
       @marquee.when_finished do |marquee|
         if @queue.any?
-          marquee.start_message(@queue.shift)
+          play_message(@queue.shift)
         else
           # TODO: play the game of life or some shit.
         end
@@ -37,13 +37,22 @@ module Fallout::Sink
       @bus_pirate.close
     end
 
-    def notify(message, priority = :normal)
+    def notify(message)
       puts "DEBUG: LEDMatrix#notify '#{message}'"
+
       if @marquee.playing?
         @queue << message
       else
-        @marquee.start_message(message)
+        play_message(message)
       end
+    end
+
+  protected
+    def play_message(message)
+      # NOTE: A single LED matrix is too small to display lower-case letters.
+      message = message.to_s.upcase
+
+      @marquee.start_message(message)
     end
   end
 end

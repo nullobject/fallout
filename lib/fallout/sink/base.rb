@@ -6,7 +6,7 @@ module Fallout::Sink
     def stop
     end
 
-    def notify(message, priority = :normal)
+    def notify(message)
     end
   end
 end

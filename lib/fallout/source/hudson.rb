@@ -19,12 +19,12 @@ module Fallout::Source
           project, build, status = id.scan(/(.+) #(\d+) \((.+)\)/).first
           message =
             case status.downcase
-            when nil
-              "building #{project}"
             when "success"
-              "building #{project} succeeded"
+              "#{project} succeeded"
             when "failure"
-              "building #{project} failed"
+              "#{project} failed"
+            when "null"
+              nil # do nothing
             else
               nil
             end
