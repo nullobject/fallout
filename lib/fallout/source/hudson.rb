@@ -17,18 +17,19 @@ module Fallout::Source
         id = entry.title
         unless @redis.sismember("builds", id)
           project, build, status = id.scan(/(.+) #(\d+) \((.+)\)/).first
-          message =
+          status =
             case status.downcase
             when "success"
-              "#{project} succeeded"
+              :succeeded
             when "failure"
-              "#{project} failed"
+              :failed
             when "null"
-              nil # do nothing
+              :started
             else
               nil
             end
-          Fallout::Manager.instance.notify(message) if message
+          message = Fallout::Message::Build.new(project, build, status)
+          Fallout::Manager.instance.notify(message)
           @redis.sadd("builds", id)
         end
       end

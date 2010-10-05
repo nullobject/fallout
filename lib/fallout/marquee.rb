@@ -10,10 +10,13 @@ module Fallout
     WIDTH  = 8
     HEIGHT = 8
 
-    FONT_FACE = "monospace"
+    FONT_FACE = "monospace".freeze
     FONT_SIZE = 10.0
 
     BLACK = [0.0, 0.0, 0.0].freeze
+    RED   = [0.0, 0.0, 1.0].freeze
+    GREEN = [0.0, 1.0, 0.0].freeze
+    BLUE  = [1.0, 0.0, 0.0].freeze
     WHITE = [1.0, 1.0, 1.0].freeze
 
     attr_accessor :speed, :dir, :color
