@@ -38,7 +38,6 @@ module Fallout::Sink
     end
 
     def notify(message)
-      return if message.is_a?(Fallout::Mesage::Build) && [:succeeded, :failed].include?(message.status)
       puts "DEBUG: LEDMatrix#notify '#{message}'"
       if @marquee.playing?
         @queue << message
@@ -49,9 +48,6 @@ module Fallout::Sink
 
   protected
     def play_message(message)
-      # A single LED matrix is too small to display lower-case letters.
-      message = message.to_s.upcase
-
       color =
         if message.is_a?(Fallout::Message::Build)
           case message.status
@@ -66,8 +62,11 @@ module Fallout::Sink
           Fallout::Marquee::WHITE
         end
 
+      # A single LED matrix is too small to display lower-case letters.
+      text = message.to_s.upcase
+
       @marquee.color = color
-      @marquee.start_message(message)
+      @marquee.start_message(text)
     end
   end
 end
