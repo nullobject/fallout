@@ -7,8 +7,14 @@ module Fallout
     LEFT_TO_RIGHT =  1
     RIGHT_TO_LEFT = -1
 
-    WIDTH  = 8
-    HEIGHT = 8
+    NUM_MATRIXES  = 2
+
+    MATRIX_WIDTH  = 8
+    MATRIX_HEIGHT = 8
+    MATRIX_SIZE   = MATRIX_WIDTH * MATRIX_HEIGHT
+
+    SURFACE_WIDTH  = 16
+    SURFACE_HEIGHT = 8
 
     FONT_FACE = "monospace".freeze
     FONT_SIZE = 10.0
@@ -25,7 +31,7 @@ module Fallout
     def initialize(spi, options = {})
       @spi = spi
 
-      @delay = options[:delay] || 0.05
+      @delay = options[:delay] || 0.0025
       @dir   = options[:dir]   || RIGHT_TO_LEFT
       @color = options[:color] || WHITE
 
@@ -55,8 +61,12 @@ module Fallout
     def tick
       if @current_message
         clear
-        draw_text(@x_pos, HEIGHT)
-        @spi.tx(surface_data)
+        draw_text(@x_pos, SURFACE_HEIGHT)
+
+        get_matrix_data.each do |bytes|
+          @spi.tx(bytes)
+        end
+
         finish_message if finished?
         @x_pos += @dir
       end
@@ -99,7 +109,7 @@ module Fallout
     # Returns true if we've moved past the last character in the message.
     def finished?
       if @dir > 0
-        @x_pos > WIDTH
+        @x_pos > SURFACE_WIDTH
       else
         @x_pos < -@text_extents.width.to_i
       end
@@ -107,7 +117,7 @@ module Fallout
 
   private
     def init_surface
-      @surface = Cairo::ImageSurface.new(WIDTH, HEIGHT)
+      @surface = Cairo::ImageSurface.new(SURFACE_WIDTH, SURFACE_HEIGHT)
       @context = Cairo::Context.new(@surface)
 
       @context.select_font_face(FONT_FACE, Cairo::FONT_SLANT_NORMAL, Cairo::FONT_WEIGHT_NORMAL)
@@ -132,7 +142,7 @@ module Fallout
       @context.stroke
     end
 
-    def surface_data
+    def get_surface_data
       [].tap do |bytes|
         e = @surface.data.enum_for(:each_byte)
 
@@ -149,6 +159,16 @@ module Fallout
       end
     end
 
+    def get_matrix_data
+      data  = Array.new(NUM_MATRIXES) { [] }
+      index = 1
+      get_surface_data.each_slice(MATRIX_WIDTH) do |segments|
+        data[index].push(*segments)
+        index = (index + 1) & (NUM_MATRIXES - 1)
+      end
+      data
+    end
+
     def set_current_message(text)
       @text_extents = @context.text_extents(text)
       set_initial_x_pos
@@ -159,7 +179,7 @@ module Fallout
       if @dir > 0
         @x_pos = -@text_extents.width.to_i
       else
-        @x_pos = WIDTH
+        @x_pos = SURFACE_WIDTH
       end
     end
   end
