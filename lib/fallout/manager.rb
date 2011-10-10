@@ -1,4 +1,4 @@
-require 'singleton'
+require "singleton"
 
 module Fallout
   class Manager
@@ -43,7 +43,6 @@ module Fallout
       @running = false
 
       @worker.wakeup
-      @worker.join
     end
 
     def notify(message)

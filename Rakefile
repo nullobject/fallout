@@ -1,11 +1,11 @@
-require 'rubygems'
-require 'bundler/setup'
+require "rubygems"
+require "bundler/setup"
 
-$: << 'lib'
+$: << "lib"
 
-require 'rake'
-require 'spec/rake/spectask'
+require "rake"
+require "spec/rake/spectask"
 
 Spec::Rake::SpecTask.new
 
-task :default => :spec
+task default: :spec

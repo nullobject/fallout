@@ -1,4 +1,4 @@
-require 'cairo'
+require "cairo"
 
 module Fallout
   # Displays scrolling messages on a LED matrix display.

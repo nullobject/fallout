@@ -1,17 +1,16 @@
 #!/usr/bin/env ruby
 
-$:.unshift File.join(File.expand_path(File.dirname(__FILE__)), '..', 'lib')
+$:.push File.expand_path("../../lib", __FILE__)
 
-require 'rubygems'
-require 'bundler/setup'
+require "rubygems"
+require "bundler/setup"
 
-require 'fallout'
+require "fallout"
 
 manager = Fallout::Manager.instance
 
-manager.sources << Fallout::Source::Hudson.new
-manager.sinks   << Fallout::Sink::LEDMatrix.new
-manager.sinks   << Fallout::Sink::Vox.new
+manager.sources << Fallout::Source::Jenkins.new(host: "ci.tc-dev.net", username: "tc", password: "c0nversation")
+manager.sinks   << Fallout::Sink::BuildIndicator.new(dev: "/dev/tty.usbserial-A7004HZe", projects: %w{tc-jobs})
 
 trap("TERM") { manager.stop }
 trap("INT")  { manager.stop }

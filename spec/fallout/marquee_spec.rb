@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Fallout::Marquee do
   let(:spi) { stub!.tx }

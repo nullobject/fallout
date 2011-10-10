@@ -1,5 +1,5 @@
-require 'bucaneer'
-require 'fallout/marquee'
+require "bucaneer"
+require "fallout/marquee"
 
 module Fallout::Sink
   # The LED matrix sink receives messages from sources and displays them.
@@ -8,9 +8,9 @@ module Fallout::Sink
   class LEDMatrix < Base
     def initialize
       options = {
-        :dev   => '/dev/tty.usbserial-A7004HZe',
-        :mode  => :spi,
-        :power => true
+        dev:   "/dev/tty.usbserial-A7004HZe",
+        mode:  :spi,
+        power: true
       }
 
       @bus_pirate = Bucaneer::BusPirate.connect(options)
@@ -27,14 +27,14 @@ module Fallout::Sink
     end
 
     def start
-      puts "DEBUG: LEDMatrix#start"
+      super
       @marquee.start
     end
 
     def stop
-      puts "DEBUG: LEDMatrix#stop"
       @marquee.stop
       @bus_pirate.close
+      super
     end
 
     def notify(message)
