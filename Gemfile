@@ -1,6 +1,6 @@
 source "http://rubygems.org"
 
-gem "bucaneer", git: "git://github.com/nullobject/bucaneer.git"
+gem "buccaneer", git: "git://github.com/nullobject/buccaneer.git"
 gem "cairo"
 gem "feedzirra"
 

@@ -1,4 +1,4 @@
-require "bucaneer"
+require "buccaneer"
 require "fallout/blink_m"
 
 module Fallout::Sink

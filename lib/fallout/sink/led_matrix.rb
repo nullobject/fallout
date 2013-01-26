@@ -1,4 +1,4 @@
-require "bucaneer"
+require "buccaneer"
 require "fallout/marquee"
 
 module Fallout::Sink
